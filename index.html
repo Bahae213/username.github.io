@@ -1,14 +1,17 @@
-<!DOCTYPE html>
 <script>
-  const takwin = window.open("https://www.takwin.dz/Infopreinscription");
+  const target = window.open("https://www.takwin.dz/Login"); // الموقع الذي تريد اختباره
+  setTimeout(() => {
+    target.postMessage({ action: "test", payload: "from attacker" }, "*");
+  }, 1000);
 
-  // أرسل رسالة
-  takwin?.postMessage("hello from attacker", "*");
+  window.addEventListener("message", (event) => {
+    console.log("🔁 الرد:", event.origin, event.data);
 
-  // استقبل رسالة
-  window.addEventListener("message", (e) => {
-    console.log("رسالة من takwin:", e.origin, e.data);
+    if (event.data === "some known value") {
+      alert("⚠️ الموقع يرد بدون تحقق من origin! قد توجد ثغرة postMessage");
+    }
   });
 </script>
+
 
 
